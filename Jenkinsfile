@@ -56,8 +56,8 @@ pipeline {
                 script {
                     sh '''
                     mkdir -p ~/.kube
-                    sudo cp $KUBECONFIG ~/.kube/config
-                    sudo  cp movie-service/values.yaml values.yml
+                    cp $KUBECONFIG ~/.kube/config
+                    cp movie-service/values.yaml values.yml
                     sed -i "s+tag.*+tag: ${DOCKER_TAG}+g" values.yml
                     helm upgrade --install app movie-service --values=values.yml --namespace dev
                     '''
@@ -70,8 +70,8 @@ pipeline {
                 script {
                     sh '''
                     mkdir -p ~/.kube
-                    sudo cp $KUBECONFIG ~/.kube/config
-                    sudo cp movie-service/values.yaml values.yml
+                    cp $KUBECONFIG ~/.kube/config
+                    cp movie-service/values.yaml values.yml
                     sed -i "s+tag.*+tag: ${DOCKER_TAG}+g" values.yml
                     helm upgrade --install app movie-service --values=values.yml --namespace staging
                     '''
@@ -84,8 +84,8 @@ pipeline {
                 script {
                     sh '''
                     mkdir -p ~/.kube
-                    sudo cp $KUBECONFIG ~/.kube/config
-                    sudo cp movie-service/values.yaml values.yml
+                    cp $KUBECONFIG ~/.kube/config
+                    cp movie-service/values.yaml values.yml
                     sed -i "s+tag.*+tag: ${DOCKER_TAG}+g" values.yml
                     helm upgrade --install app movie-service --values=values.yml --namespace qa
                     '''
@@ -101,8 +101,8 @@ pipeline {
                 script {
                     sh '''
                     mkdir -p ~/.kube
-                    sudo cp $KUBECONFIG ~/.kube/config
-                    sudo cp movie-service/values.yaml values.yml
+                    cp $KUBECONFIG ~/.kube/config
+                    cp movie-service/values.yaml values.yml
                     sed -i "s+tag.*+tag: ${DOCKER_TAG}+g" values.yml
                     helm upgrade --install app movie-service --values=values.yml --namespace prod
                     '''
@@ -111,5 +111,3 @@ pipeline {
         }
     }
 }
-
-

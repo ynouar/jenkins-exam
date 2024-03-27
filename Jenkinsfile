@@ -56,7 +56,7 @@ pipeline {
                 script {
                     sh '''
                     mkdir -p ~/.kube
-                    cp $KUBECONFIG ~/.kube/config
+                    sudo cp $KUBECONFIG ~/.kube/config
                     sudo  cp movie-service/values.yaml values.yml
                     sed -i "s+tag.*+tag: ${DOCKER_TAG}+g" values.yml
                     helm upgrade --install app movie-service --values=values.yml --namespace dev
@@ -111,4 +111,5 @@ pipeline {
         }
     }
 }
+
 

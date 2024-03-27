@@ -1,6 +1,6 @@
 pipeline {
     environment {
-<<<<<<< HEADx
+<<<<<<< HEAD
         DOCKER_ID = "seily" // Remplacez cela par votre ID Docker
 >>>>>>> 21573ef621636d703c7d71276d28e46f6cd82afe
         DOCKER_IMAGE = "datascientestapi"

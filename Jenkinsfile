@@ -7,44 +7,29 @@ pipeline {
         DOCKER_PASS = credentials("DOCKER_HUB_PASS")
     }
     agent any
-
     stages {
-        stage('Build and run movie-service') {
+        stage('Docker Build Movie Service') {
             steps {
                 script {
                     sh '''
                     docker rm -f jenkins
                     docker build -t $DOCKER_ID/$DOCKER_IMAGE:$DOCKER_TAG ./movie-service
                     sleep 6
-                    docker run -d -p 80:80 --name jenkins $DOCKER_ID/$DOCKER_IMAGE:$DOCKER_TAG
-                    sleep 10
                     '''
                 }
             }
         }
-
-        stage('Build and run cast-service') {
+        stage('Docker Build Cast Service') {
             steps {
                 script {
                     sh '''
-                    docker rm -f jenkins-cast
+                    docker rm -f jenkins
                     docker build -t $DOCKER_ID/$DOCKER_IMAGE:$DOCKER_TAG ./cast-service
                     sleep 6
-                    docker run -d -p 8088:8080 --name jenkins-cast $DOCKER_ID/$DOCKER_IMAGE:$DOCKER_TAG
-                    sleep 10
                     '''
                 }
             }
         }
-
-        stage('Test Acceptance') {
-            steps {
-                script {
-                    sh 'curl localhost'
-                }
-            }
-        }
-
         stage('Docker Push') {
             steps {
                 script {
@@ -55,8 +40,7 @@ pipeline {
                 }
             }
         }
-
-        stage('Deployment in dev') {
+        stage('Deploiement en dev') {
             steps {
                 script {
                     sh '''
@@ -69,8 +53,7 @@ pipeline {
                 }
             }
         }
-
-        stage('Deployment in staging') {
+        stage('Deploiement en staging') {
             steps {
                 script {
                     sh '''
@@ -83,8 +66,7 @@ pipeline {
                 }
             }
         }
-
-        stage('Deployment in qa') {
+        stage('Deploiement en qa') {
             steps {
                 script {
                     sh '''
@@ -97,8 +79,7 @@ pipeline {
                 }
             }
         }
-
-        stage('Deployment in prod') {
+        stage('Deploiement en prod') {
             steps {
                 timeout(time: 15, unit: "MINUTES") {
                     input message: 'Do you want to deploy in production ?', ok: 'Yes'

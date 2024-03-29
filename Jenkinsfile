@@ -7,7 +7,34 @@ pipeline {
         DOCKER_PASS = credentials("DOCKER_HUB_PASS")
     }
     agent any
+	stages {
+        stage('Build and run movie-service') {
+            steps {
+                script {
+                    sh '''
+                    docker rm -f jenkins
+                    docker build -t $DOCKER_ID/$DOCKER_IMAGE:$DOCKER_TAG ./movie-service
+                    sleep 6
+                    docker run -d -p 80:80 --name jenkins $DOCKER_ID/$DOCKER_IMAGE:$DOCKER_TAG
+                    sleep 10
+                    '''
+                }
+            }
+        }
 
+        stage('Build and run cast-service') {
+            steps {
+                script {
+                    sh '''
+                    docker rm -f jenkins-cast
+                    docker build -t $DOCKER_ID/$DOCKER_IMAGE:$DOCKER_TAG ./cast-service
+                    sleep 6
+                    docker run -d -p 8080:8080 --name jenkins-cast $DOCKER_ID/$DOCKER_IMAGE:$DOCKER_TAG
+                    sleep 10
+                    '''
+                }
+            }
+        }
     stages {
         stage('Docker Build') {
             steps {

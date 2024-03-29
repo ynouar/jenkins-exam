@@ -7,7 +7,8 @@ pipeline {
         DOCKER_PASS = credentials("DOCKER_HUB_PASS")
     }
     agent any
-	stages {
+
+    stages {
         stage('Build and run movie-service') {
             steps {
                 script {
@@ -35,29 +36,6 @@ pipeline {
                 }
             }
         }
-    stages {
-        stage('Docker Build') {
-            steps {
-                script {
-                    sh '''
-                    docker rm -f jenkins
-                    docker build -t $DOCKER_ID/$DOCKER_IMAGE:$DOCKER_TAG ./cast-service
-                    sleep 6
-                    '''
-                }
-            }
-        }
-
-        stage('Docker run') {
-            steps {
-                script {
-                    sh '''
-                    docker run -d -p 80:80 --name jenkins $DOCKER_ID/$DOCKER_IMAGE:$DOCKER_TAG
-                    sleep 10
-                    '''
-                }
-            }
-        }
 
         stage('Test Acceptance') {
             steps {
@@ -78,7 +56,7 @@ pipeline {
             }
         }
 
-        stage('Deploiement en dev') {
+        stage('Deployment in dev') {
             steps {
                 script {
                     sh '''
@@ -92,7 +70,7 @@ pipeline {
             }
         }
 
-        stage('Deploiement en staging') {
+        stage('Deployment in staging') {
             steps {
                 script {
                     sh '''
@@ -106,7 +84,7 @@ pipeline {
             }
         }
 
-        stage('Deploiement en qa') {
+        stage('Deployment in qa') {
             steps {
                 script {
                     sh '''
@@ -120,7 +98,7 @@ pipeline {
             }
         }
 
-        stage('Deploiement en prod') {
+        stage('Deployment in prod') {
             steps {
                 timeout(time: 15, unit: "MINUTES") {
                     input message: 'Do you want to deploy in production ?', ok: 'Yes'

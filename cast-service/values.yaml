@@ -1,6 +1,6 @@
 replicaCount: 3
 image:
-  repository: seily/cast-service
+  repository: seily/datascientestcast
   tag: latest
   pullPolicy: IfNotPresent
 service:

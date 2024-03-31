@@ -1,6 +1,6 @@
 replicaCount: 3
 image:
-  repository: seily/movie-service
+  repository: seily/datascientestmovie
   tag: latest
   pullPolicy: IfNotPresent
 service:
